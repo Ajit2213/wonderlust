@@ -1,0 +1,46 @@
+ <% layout("./listings/layouts/boilerplate")-%>
+
+<div class="row mt-3">
+  <div class="col-8 offset-2">
+    <h1>Confirm Your Booking at <%= listing.title %></h1>
+    <p>Check-In Date: <%= bookingDetails.checkInDate.toDateString() %></p>
+    <p>Check-Out Date: <%= bookingDetails.checkOutDate.toDateString() %></p>
+    <p>Number of Guests: <%= bookingDetails.numGuests %></p>
+    <p>Total Amount: Rs:<%= bookingDetails.totalAmount  %></p>
+    
+    <form id="payment-form" action="/listings/<%= listing._id %>/confirm" method="POST" class="needs-validation" novalidate>
+      <div id="card-element"></div>
+      <button class="btn btn-dark add-btn mt-3 mb-2" type="submit" id="checkout-button">Pay Now</button>
+      <div id="card-errors" role="alert"></div>
+    </form>
+  </div>
+</div>
+
+
+<script src="https://js.stripe.com/v3/"></script>
+
+<!-- <script>
+ document.addEventListener("DOMContentLoaded", function(event) {
+   var stripe = Stripe('pk_test_51Q7HaaHJe8uQrcicucfp2cazT6aRS5sWDZD4uPqEpF83RDYjKpBAlBFEkTgV2vvC6Ss6uLY9DKK9sqRqALVDAHIb00UdGpRv9z');
+ var elements = stripe.elements();
+  var cardElement = elements.create('card');
+   cardElement.mount('#card-element'); 
+   var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+       event.preventDefault();
+        stripe.createToken(cardElement).then(function(result) {
+           if (result.error)
+            { var errorElement = document.getElementById('card-errors');
+             errorElement.textContent = result.error.message; }
+            else { stripeTokenHandler(result.token);
+              
+            } }); 
+          });
+             function stripeTokenHandler(token) {
+               var form = document.getElementById('payment-form');
+                var hiddenInput = document.createElement('input');
+                 hiddenInput.setAttribute('type', 'hidden');
+                  hiddenInput.setAttribute('name', 'stripeToken');
+                   hiddenInput.setAttribute('value', token.id);
+                    form.appendChild(hiddenInput); form.submit(); } }); 
+                    </script> -->

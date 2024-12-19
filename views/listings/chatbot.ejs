@@ -1,0 +1,374 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chatbot</title>
+    <style>
+      /* Chatbot Styles */
+      body,html{
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .chat-container {
+        position: fixed;
+        top:0px;
+        left:0px;
+        
+        width:100%;
+        height: 100%;
+        max-width:100%;
+        border: none;
+        border-radius:0;
+        background-color: #fff;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: none;
+      }
+      .chat-header {
+        background-color: #25d366;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+        font-weight: bold;
+        flex-shrink: 0;
+      }
+      .chat-body {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+        
+      }
+      .chat-input-container {
+        display: flex;
+        border-top: 1px solid #ccc;
+        margin-bottom:40px;
+      }
+      .chat-input {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        outline: none;
+      }
+      .chat-send-button {
+        padding: 10px;
+        background-color: #25d366;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chat-container">
+      <div class="chat-header">Chat Bot</div>
+      <div class="chat-body" id="chatBody">
+        
+      </div>
+      <div class="chat-input-container">
+        <input
+          type="text"
+          class="chat-input"
+          id="chatInput"
+          placeholder="Type your message..."
+        />
+        <button class="chat-send-button" id="sendButton">Send</button>
+      </div>
+    </div>
+
+    <script>
+      async function sendMessage() {
+        const input = document.getElementById("chatInput");
+        const message = input.value;
+        const chatBody = document.getElementById("chatBody");
+    }
+
+    const button=document.getElementById("sendButton");
+    
+    button.addEventListener("click",function(){
+        console.log("its working")
+    })
+        // Add the user's message to the chat
+        const userMessage = document.createElement("div");
+        userMessage.textContent = message;
+        userMessage.style.color = "blue"; // User message styling
+        chatBody.appendChild(userMessage);
+        chatBody.scrollTop = chatBody.scrollHeight;
+
+        input.value = "";
+
+        try {
+          // Send the message to the server
+          const response = await fetch("/api/chat", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ message }),
+          });
+
+          const data = await response.json();
+          const value = data.replace(/\*\*(.*?)\*\*/g, "$1");
+
+            // const botMessage = document.createElement('div');
+            // botMessage.textContent =value;
+            // botMessage.style.color = 'green';
+            // chatBody.appendChild(botMessage);
+            // chatBody.scrollTop = chatBody.scrollHeight;
+
+
+
+
+
+            function printSlowly(text, delay) { 
+                let final = ""; 
+                // const chatBody = document.getElementById('chatBody');
+                const botMessage = document.createElement('div');
+                 let i = 0; 
+                 function printCharacter() { 
+                    if (i < text.length) { 
+                        if (text[i] === '\n') 
+                        {final += '<br>'} 
+                    else { final += text[i]; 
+
+                    } 
+                    botMessage.innerHTML= final; 
+                    botMessage.style.color = 'green';
+                    botMessage.scrollTop = botMessage.scrollHeight; i++; 
+             chatBody.appendChild(botMessage);
+                    
+                    setTimeout(printCharacter, delay); } }
+                     printCharacter(); }
+
+
+
+
+
+printSlowly(value,2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         }catch (error) {
+          console.error("Error:", error);
+          // Display error message in the chat
+          const errorMessage = document.createElement("div");
+          errorMessage.textContent = `Error: ${error.message}`;
+          errorMessage.style.color = "red";
+          chatBody.appendChild(errorMessage);
+          chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        
+        
+      
+    </script>
+  </body>
+</html> -->
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Chatbot Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .chat-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 0;
+            background-color: #fff;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: none;
+        }
+        .chat-header {
+            background-color: #25d366;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .chat-body {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+        }
+        .chat-input-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-top: 1px solid #ccc;
+          
+            width:60%;
+            margin:auto;
+            margin-bottom: 40px;
+            border: 2px solid black;
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            padding: 10px;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            outline: none;
+        }
+        .chat-send-button {
+         
+            
+            
+            margin-right: 10px;
+           
+            
+           
+
+        }
+        .fa-paper-plane{
+color:blue;
+font-size:30px;
+background-color:white;
+border: none;
+
+        }
+        button{
+          border: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">Chat Bot</div>
+        <div class="chat-body" id="chatBody">
+            <!-- Chat messages will appear here -->
+        </div>
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Type your message...">
+            <button class="chat-send-button" id="sendButton"><i class="fa-regular fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script>
+        // Function to print the data slowly in the message box
+        function printSlowly(text, delay) {
+            let final = "";
+            // const chatBody = document.getElementById('chatBody');
+            const botMessage = document.createElement('div');
+            let i = 0;
+
+            function printCharacter() {
+                if (i < text.length) {
+                    if (text[i] === '\n') {
+                        final += '<br>';
+                    } else {
+                        final += text[i];
+                    }
+                    botMessage.innerHTML = final;
+                    botMessage.style.color="green";
+                    botMessage.scrollTop = chatBody.scrollHeight;
+                    i++;
+                    chatBody.appendChild(botMessage);
+                    setTimeout(printCharacter, delay);
+                }
+            }
+            printCharacter();
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value;
+            const chatBody = document.getElementById('chatBody');
+
+            if (message.trim() === "") return;
+
+            // Add the user's message to the chat
+            const userMessage = document.createElement('div');
+            userMessage.textContent = message;
+            userMessage.style.color = 'blue'; // User message styling
+            chatBody.appendChild(userMessage);
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            input.value = "";
+
+            try {
+                // Send the message to the server
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message })
+                });
+
+                const data = await response.json();
+                const value = data.replace(/\*\*(.*?)\*\*/g, '$1');
+
+                printSlowly(value, 2); // Adjust delay as needed
+            } catch (error) {
+                console.error('Error:', error);
+
+                // Display error message in the chat
+                const errorMessage = document.createElement('div');
+                errorMessage.textContent = `Error: ${error.message}`;
+                errorMessage.style.color = 'red'; // Error message styling
+                chatBody.appendChild(errorMessage);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+        }
+
+        // Ensure sendMessage is defined before using in HTML
+        document.getElementById('sendButton').addEventListener('click', sendMessage);
+        document.getElementById('chatInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
